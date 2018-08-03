@@ -21,8 +21,4 @@ public class Task {
 	public String getID(){
 		return this.id;
 	}
-	
-	public boolean isCompleted(){
-		return completed;
-	}
 }
