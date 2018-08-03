@@ -32,13 +32,12 @@ public class Todo {
 	//POST: If possible, adds task to the corisponding list and returns the proper http status.
 	@POST
 	public Response post(String id, Task task) {
-		Todolist todo = this.getTodo(id);
+		todoList todo = this.getTodo(id);
 		if(todo == null){
 			return Response.status(Status.BAD_REQUEST).build();
-			// 400
 		}
 		int num = todo.tasks.length;
-		if(num ==1 && todo.tasks[0]==null){//deals with first task added
+		if(num ==1 && todo.tasks[0]==null){//deals with first task added in my task class
 			todo.tasks[0] = task;
 			return Response.status(Status.OK).build();
 		}
@@ -50,7 +49,7 @@ public class Todo {
 			temp2[i]=todo.tasks[i];
 		}
 		temp2[num]= task;
-		todo.tasks =temp2;
+		todo.tasks = temp2;
 		return Response.status(Status.OK).build();
 	}
 	
@@ -58,7 +57,7 @@ public class Todo {
 	//POST: Records the corisponding task is completed and returns the proper http
 	@POST
 	public Response post(String id, String taskId) {
-		Todolist todo = this.getTodo(id);
+		todoList todo = this.getTodo(id);
 		if(todo == null) {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
@@ -78,7 +77,7 @@ public class Todo {
 		if(skip <0||num<0||masterList.size()<skip){
 			return Response.status(Status.BAD_REQUEST).build();
 		}
-		Todolist[] temp = new Todolist[num];
+		todoList[] temp = new todoList[num];
 		int count = 0;
 		for(int i= skip+1; i<=skip+num && i<masterList.size();i++){
 			temp[count] = masterList.get(i);
@@ -94,11 +93,11 @@ public class Todo {
 		if(skip <0||num<0||masterList.size()<skip||searchString.isEmpty()){
 			return Response.status(Status.BAD_REQUEST).build();
 		}
-		Todolist[] temp = new Todolist[num];
+		todoList[] temp = new todoList[num];
 		int count1 =0;
 		int count2 =skip+1;
 		while(count1<num && count2<masterList.size()){
-			Todolist store = masterList.get(count2);
+			todoList store = masterList.get(count2);
 			if(store.name.toLowerCase().contains(searchString)){
 				temp[count1]=store;
 				count1++;
@@ -112,7 +111,7 @@ public class Todo {
 	//POST: Returns the todo list that matches the UUID and the proper http status
 	@GET
 	public Response get(String id) {
-		Todolist todo = this.getTodo(id);
+		todoList todo = this.getTodo(id);
 		if(todo == null) {
 			return Response.Status(Status.NOT_FOUND).build();
 		}
@@ -127,9 +126,9 @@ public class Todo {
 		} catch (IllegalArgumentException exception){
 		    return null;
 		}
-		Todolist todo =null;
+		todoList todo =null;
 		for(int i = 0; i < masterList.size();i++){
-			Todolist temp = masterList.get(i);
+			todoList temp = masterList.get(i);
 			if(temp.id == id){
 				todo = temp;
 				break;
@@ -137,6 +136,4 @@ public class Todo {
 		}
 		return todo;
 	}
-	
-
 }
